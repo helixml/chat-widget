@@ -1,4 +1,4 @@
-import { FC, createElement, useState, useCallback } from 'react'
+import { FC, createElement, useState } from 'react'
 import { styled, setup } from 'goober'
 
 import Window, { WindowTheme } from './Window'
@@ -12,21 +12,22 @@ const SearchContainer = styled("div")`
 `;
 
 const Widget: FC<{
+  url: string,
+  model: string,
+  bearerToken?: string,
   windowTheme?: WindowTheme,
   searchTheme?: SearchTheme,
   placeholder?: string,
 }> = ({
+  url,
+  model,
+  bearerToken,
   windowTheme = {},
   searchTheme = {},
   placeholder,
 }) => {
   const [ open, setOpen ] = useState(false)
-
-  const handleQuery = useCallback((query: string) => {
-    console.log('--------------------------------------------')
-    console.log(query)
-  }, [])
-
+  
   return (
     <>
       <SearchContainer>
@@ -35,16 +36,21 @@ const Widget: FC<{
           placeholder={ placeholder }
           onClick={ () => setOpen(true) }
         />
-        <Window
-          open={ open }
-          modalTheme={ windowTheme }
-          searchBoxTheme={ searchTheme }
-          placeholder={ placeholder }
-          onSubmit={ handleQuery }
-          onClose={ () => {
-            setOpen(false)
-          }}
-        />
+        {
+          open && (
+            <Window
+              url={ url }
+              model={ model }
+              bearerToken={ bearerToken }
+              modalTheme={ windowTheme }
+              searchBoxTheme={ searchTheme }
+              placeholder={ placeholder }
+              onClose={ () => {
+                setOpen(false)
+              }}
+            />
+          )
+        }
       </SearchContainer>
     </>
   )

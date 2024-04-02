@@ -1,6 +1,7 @@
-import { FC, HTMLAttributes } from 'react'
+import { FC, HTMLAttributes, useState } from 'react'
 import { styled } from 'goober'
 import SearchBar, { SearchTheme } from './Search'
+import useStreamingLLM from './useStreamingLLM'
 
 export interface WindowTheme {
   logoWidth?: string,
@@ -13,9 +14,14 @@ export interface WindowTheme {
   headerTextColor?: string,
   headerFontSize?: string,
   headerPadding?: string,
+  errorTextColor?: string,
+  errorFontSize?: string,
   contentBoxShadow?: string,
   contentPadding?: string,
-  contentHeaderTextColor?: string,
+  replyTextColor?: string,
+  replyFontSize?: string,
+  subtitleTextColor?: string,
+  subtitleFontSize?: string,
   footerPadding?: string,
   closeButtonBorderRadius?: string,
   closeButtonColor?: string,
@@ -40,9 +46,14 @@ export const DEFAULT_THEME: WindowThemeRequired = {
   headerTextColor: 'white',
   headerFontSize: '1.25rem',
   headerPadding: '30px',
+  subtitleTextColor: '#aaa',
+  subtitleFontSize: '1rem',
+  errorTextColor: 'red',
+  errorFontSize: '1rem',
   contentBoxShadow: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)',
   contentPadding: '30px',
-  contentHeaderTextColor: '#aaa',
+  replyTextColor: 'white',
+  replyFontSize: '1.1rem',
   footerPadding: '20px',
   closeButtonBorderRadius: '10px',
   closeButtonColor: '#00bfe4',
@@ -101,10 +112,26 @@ const Content = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />
   boxShadow: ${theme.contentBoxShadow};
 `)
 
-const ContentHeader = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const Subtitle = styled<ThemeElement & {marginBottom?: string, marginTop?: string}>(({ theme, marginBottom, marginTop, ...props }) => <div {...props} /> )(({ theme, marginBottom = '20px', marginTop = '0px' }) => `
   font-family: ${theme.fontFamily};
-  color: ${theme.contentHeaderTextColor};
-  margin-bottom: 20px;
+  font-size: ${theme.subtitleFontSize};
+  color: ${theme.subtitleTextColor};
+  margin-bottom: ${marginBottom};
+  margin-top: ${marginTop};
+`)
+
+const Reply = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+  font-family: ${theme.fontFamily};
+  font-size: ${theme.replyFontSize};
+  color: ${theme.replyTextColor};
+  margin-top: 20px;
+`)
+
+const Error = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+  font-family: ${theme.fontFamily};
+  font-size: ${theme.errorFontSize};
+  color: ${theme.errorTextColor};
+  margin-top: 20px;
 `)
 
 const Footer = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
@@ -127,27 +154,51 @@ const CloseButton = styled<{
 const SimpleWindow: FC<{
   modalTheme: WindowTheme,
   searchBoxTheme: SearchTheme,
-  open?: boolean,
+  url: string,
+  model: string,
+  bearerToken?: string,
   title?: string,
   placeholder?: string,
   logo?: string,
-  onSubmit?: (value: string) => void,
   onClose?: () => void,
 } & WindowTheme> = ({
   modalTheme = {},
   searchBoxTheme = {},
-  open = false,
+  url,
+  model,
+  bearerToken,
   title = 'Ask Helix',
   placeholder,
   logo = 'https://app.tryhelix.ai/img/logo.png',
-  onSubmit,
   onClose = () => {},
 }) => {
+  const [ error, setError ] = useState('')
+  const [ reply, setReply ] = useState('')
+
   const useTheme = {
     ...DEFAULT_THEME,
     ...modalTheme,
   }
-  if (!open) return null
+
+  const {
+    loading,
+    handleQuery,
+  } = useStreamingLLM({
+    url,
+    model,
+    bearerToken,
+    onStart: () => {
+      setReply('')
+      setError('')
+    },
+    onChunk: (chunk) => {
+      setReply(reply => reply + chunk)
+    },
+    onError: (err) => {
+      setError(err)
+    }
+  })
+
   return (
     <Backdrop
       theme={ useTheme }
@@ -176,17 +227,44 @@ const SimpleWindow: FC<{
         <Content
           theme={ useTheme }
         >
-          <ContentHeader
+          <Subtitle
             theme={ useTheme }
           >
             Your Query:
-          </ContentHeader>
+          </Subtitle>
           <SearchBar
             autoFocus
+            loading={ loading }
             theme={ searchBoxTheme }
             placeholder={ placeholder }
-            onSubmit={ onSubmit }
+            onSubmit={ handleQuery }
           />
+          {
+            reply && (
+              <>
+                <Subtitle
+                  theme={ useTheme }
+                  marginTop="20px"
+                >
+                  Answer:
+                </Subtitle>
+                <Reply
+                  theme={ useTheme }
+                >
+                  { reply }
+                </Reply>
+              </>
+            )
+          }
+          {
+            error && (
+              <Error
+                theme={ useTheme }
+              >
+                { error }
+              </Error>
+            )
+          }
         </Content>
         <Footer
           theme={ useTheme }

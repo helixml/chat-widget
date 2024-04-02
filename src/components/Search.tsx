@@ -2,6 +2,7 @@ import { FC, HTMLAttributes, useEffect, useRef, useState } from 'react'
 import { styled } from 'goober'
 import {
   RightArrow,
+  HourglassIcon,
 } from './Icons'
 
 export interface SearchTheme {
@@ -34,13 +35,14 @@ export const DEFAULT_THEME: SearchThemeRequired = {
   fontFamily: 'Arial',
 }
 
-const InputContainer = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const InputContainer = styled<ThemeElement & {opacity?: string}>(({ theme, opacity, ...props }) => <div {...props} /> )(({ theme, opacity = '1' }) => `
   display: flex;
   align-items: center;
   border: 1px solid ${theme.borderColor};
   border-radius: ${theme.borderRadius};
   background-color: ${theme.backgroundColor};
   padding-right: ${theme.iconPadding};
+  opacity: ${opacity};
   &:hover {
     border-color: ${theme.hoverBorderColor};
   }
@@ -67,12 +69,14 @@ const SearchIcon = styled<ThemeElement>(({ theme, ...props }) => <div {...props}
 const SearchBar: FC<{
   theme: SearchTheme,
   autoFocus?: boolean,
+  loading?: boolean,
   placeholder?: string,
   onClick?: () => void,
   onSubmit?: (value: string) => void,
 }> = ({
   theme,
   autoFocus = false,
+  loading = false,
   placeholder = 'Ask a question...',
   onClick,
   onSubmit,
@@ -92,6 +96,7 @@ const SearchBar: FC<{
   return (
     <InputContainer
       theme={useTheme}
+      opacity={loading ? '0.5' : '1'}
       onClick={onClick}
     >
       <input
@@ -105,6 +110,7 @@ const SearchBar: FC<{
             onSubmit(query)
           }
         }}
+        disabled={loading}
       />
       <SearchIcon
         theme={useTheme}
@@ -114,10 +120,16 @@ const SearchBar: FC<{
           }
         }}
       >
-        <RightArrow />
+        {
+          loading ? (
+            <HourglassIcon />
+          ) : (
+            <RightArrow />
+          )
+        }
       </SearchIcon>
     </InputContainer>
-  );
+  )
 }
 
 export default SearchBar
