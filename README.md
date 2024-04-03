@@ -101,7 +101,3 @@ Customize the appearance of the chat widget and its components using the `window
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-Feel free to adjust any part of this README to better suit the specifics of your project or to add any additional information you deem necessary for your users.
