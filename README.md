@@ -4,6 +4,8 @@
 
 The `@helixai/chat-widget` is a highly customizable React component designed to provide interactive chat functionality within your application. It features a minimalist design that opens a modal window upon interaction, where users can submit questions and receive answers from a specified openAI compatible endpoint.
 
+![screenshot](screenshot.png)
+
 ## Installation
 
 To use the `@helixai/chat-widget` in your project, install it via npm:
