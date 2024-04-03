@@ -12,14 +12,18 @@ const Widget: FC<{
   bearerToken?: string,
   windowTheme?: WindowTheme,
   searchTheme?: SearchTheme,
+  title?: string,
   placeholder?: string,
+  logo?: string,
 }> = ({
   url,
   model,
   bearerToken,
   windowTheme = {},
   searchTheme = {},
+  title,
   placeholder,
+  logo,
 }) => {
   const [ open, setOpen ] = useState(false)
   
@@ -36,6 +40,8 @@ const Widget: FC<{
             url={ url }
             model={ model }
             bearerToken={ bearerToken }
+            title={ title }
+            logo={ logo }
             modalTheme={ windowTheme }
             searchBoxTheme={ searchTheme }
             placeholder={ placeholder }

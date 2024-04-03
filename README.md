@@ -49,9 +49,11 @@ export default App;
 - `url`: String. The endpoint URL for the remote API from which the answers will be fetched.
 - `model`: String. Identifier for the specific model to be queried at the remote API.
 - `bearerToken`: (Optional) String. Bearer token for authentication with the remote API, if required.
+- `title`: (Optional) String. Title text for the chat window.
+- `logo`: (Optional) String. URL of the logo image to display in the header.
+- `placeholder`: (Optional) String. Placeholder text for the search input.
 - `windowTheme`: (Optional) Object. Theme customization for the window component. See the Theme Customization section below for details.
 - `searchTheme`: (Optional) Object. Theme customization for the search input. See the Theme Customization section below for details.
-- `placeholder`: (Optional) String. Placeholder text for the search input.
 
 ## Theme Customization
 
