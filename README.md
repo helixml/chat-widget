@@ -30,12 +30,10 @@ function App() {
   return (
     <div className="App">
       <Widget
-        url="YOUR_API_ENDPOINT"
-        model="YOUR_MODEL_IDENTIFIER"
-        bearerToken="YOUR_OPTIONAL_BEARER_TOKEN"
+        url="https://myopenaiendpoint.com"
+        model="my_model_name"
         windowTheme={{ /* Optional window theme overrides */ }}
         searchTheme={{ /* Optional search theme overrides */ }}
-        placeholder="Ask me anything..."
       />
     </div>
   );
