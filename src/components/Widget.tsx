@@ -3,6 +3,7 @@ import { setup } from 'goober'
 
 import Window, { WindowTheme } from './Window'
 import Search, { SearchTheme } from './Search'
+import Error from './Error'
 
 setup(createElement)
 
@@ -28,6 +29,18 @@ const Widget: FC<WidgetProps> = ({
   logo,
 }) => {
   const [ open, setOpen ] = useState(false)
+
+  if(!url) {
+    return (
+      <Error text="no url config found" />
+    )
+  }
+
+  if(!model) {
+    return (
+      <Error text="no model config found" />
+    )
+  }
   
   return (
     <>
