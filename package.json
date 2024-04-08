@@ -1,6 +1,6 @@
 {
   "name": "@helixml/chat-widget",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -8,6 +8,7 @@
   ],
   "scripts": {
     "dev": "vite",
+    "prepare": "npm run build",
     "build": "vite build && tsc --emitDeclarationOnly",
     "preview": "vite preview"
   },
