@@ -6,7 +6,7 @@ import Search, { SearchTheme } from './Search'
 
 setup(createElement)
 
-const Widget: FC<{
+export interface WidgetProps {
   url: string,
   model: string,
   bearerToken?: string,
@@ -15,7 +15,9 @@ const Widget: FC<{
   title?: string,
   placeholder?: string,
   logo?: string,
-}> = ({
+}
+
+const Widget: FC<WidgetProps> = ({
   url,
   model,
   bearerToken,
