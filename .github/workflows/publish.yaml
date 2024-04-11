@@ -1,5 +1,9 @@
 name: NPM publish CD workflow
 
+# Allow the workflow to write back to the repo
+permissions:
+  contents: write
+
 on:
   release:
     # This specifies that the build will be triggered when we publish a release
