@@ -1,6 +1,6 @@
-import { FC, HTMLAttributes, useState, useRef, useEffect } from 'react'
 import { styled } from 'goober'
 import throttle from 'lodash/throttle'
+import { FC, HTMLAttributes, useEffect, useRef, useState } from 'react'
 import Markdown from 'react-markdown'
 import SearchBar, { SearchTheme } from './Search'
 import useStreamingLLM from './useStreamingLLM'

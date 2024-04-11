@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react'
-import {createParser, type ParsedEvent, type ReconnectInterval} from 'eventsource-parser'
+import { createParser, type ParsedEvent, type ReconnectInterval } from 'eventsource-parser'
+import { useCallback, useState } from 'react'
 
 const useStreamingLLM = ({
   url,
@@ -51,8 +51,20 @@ const useStreamingLLM = ({
 
       const parser = createParser((event: ParsedEvent | ReconnectInterval) => {
         if (event.type === 'event') {
+          // If there's no data, skip
+          if (!event.data || event.data === '') {
+            return
+          }
+          // If the response is [DONE], skip -- the OpenAI API sends this to indicate the end of the stream
+          if (event.data === "[DONE]") {
+            return
+          }
           const parsedData = JSON.parse(event.data) as any
           const text = parsedData?.choices[0]?.delta?.content
+          // If there's no text, skip
+          if (!text) {
+            return
+          }
           onChunk(text)
         }
       })
