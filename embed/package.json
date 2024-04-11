@@ -1,6 +1,6 @@
 {
   "name": "@helixml/chat-embed",
-  "version": "0.3.0-a3",
+  "version": "0.3.0-a12",
   "main": "dist/chat-widget.iife.js",
   "files": [
     "dist"
