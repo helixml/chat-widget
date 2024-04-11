@@ -1,27 +1,13 @@
 {
-  "name": "@helixml/chat-widget",
-  "version": "0.2.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
+  "private": true,
+  "workspaces":[
+    "lib",
+    "embed"
   ],
   "scripts": {
-    "dev": "vite",
-    "prepare": "npm run build",
-    "build": "vite build && tsc --emitDeclarationOnly",
-    "preview": "vite preview"
-  },
-  "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.17.0",
-    "eventsource-parser": "^1.1.2",
-    "goober": "^2.1.14",
-    "lodash": "^4.17.21",
-    "react-markdown": "^9.0.1"
+    "build": "npm run build:lib && npm run build:embed",
+    "build:lib": "cd lib && npm run build",
+    "build:embed": "cd embed && npm run build"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -29,10 +15,5 @@
     "@vitejs/plugin-react": "^4.2.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/helixml/chat-widget.git"
-  },
-  "license": "MIT"
+  }
 }

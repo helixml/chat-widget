@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+</head>
+
+<body>
+    <h1>Welcome to My Website</h1>
+
+    <p>This is an example</p>
+
+    {{/*
+    <script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed@latest"
+        integrity="sha384-uhB73dySHFux0dp1aeFXjWXQVW0iOLo1+khKl+KnFkGWKe24GF9pxKX6AN8pI1vT"
+        crossorigin="anonymous"></script> */}}
+    <script
+        src="dist/chat-widget.iife.js"></script>
+    <script>
+        ChatWidget({
+            url: 'https://api.openai.com/v1/chat/completions',
+            model: 'gpt-3.5-turbo',
+            bearerToken: 'YOUR_API_KEY',
+        })
+    </script>
+</body>
+
+</html>
