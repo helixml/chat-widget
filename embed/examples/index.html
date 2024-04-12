@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+</head>
+
+<body>
+    <h1>Welcome to My Website</h1>
+
+    <p>This is an example</p>
+
+    <!-- The user facing version will look something like this... -->
+    <!--
+        <script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed@latest"
+        integrity="..." crossorigin="anonymous"></script> 
+    -->
+    
+    <!-- run `npm run build` to generate the dist/chat-widget.iife.js file -->
+    <script src="dist/chat-widget.iife.js"></script>
+    <script>
+        ChatWidget({
+            url: 'https://api.openai.com/v1/chat/completions',
+            model: 'gpt-3.5-turbo',
+            bearerToken: 'YOUR_API_KEY',
+        })
+    </script>
+</body>
+
+</html>

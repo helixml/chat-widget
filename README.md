@@ -1,10 +1,43 @@
 # @helixml/chat-widget
 
-![helix logo](helix_logo.png)
+![helix logo](docs/helix_logo.png)
+
+The `@helixml/chat-widget` is a UI component that makes it easy to expose large language models behind common APIs (e.g. OpenAI API). It is packaged both as a react component and a browser-side library.
+
+## Browser Usage
+
+The `@helixml/chat-embed` library is a standalone wrapper around our [chat-widget](https://github.com/helixml/chat-widget) library that can easily be embedded onto any page with a `<script>` tag.
+
+It will bundle using the [IIFE](https://en.wikipedia.org/wiki/Immediately_invoked_function_expression) format which means that we can put this script tag on any page that uses any JS library - it is totally self contained and non combative with other versions of React or other libraries the user might have installed.
+
+### Install
+
+Load the library from a CDN and then you can call the global `ChatWidget` to render it somewhere in your application.
+
+The arguments you pass to the `ChatWidget` function are the same as the properties passed to the [chat-widget](https://github.com/helixml/chat-widget) library and so you can refer to it's documentation.
+
+```html
+<script
+  src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed"
+  integrity="sha256-4zSVtrMXR/BJuUbZxuWo3+MrS/el0lOHBi3DCamRq88="
+  crossorigin="anonymous"
+></script>
+<script>
+  ChatWidget({
+    apiURL: 'https://searchbots.com/api/v1/chat',
+    token: 'XXX',
+    model: 'my-smart-model',
+  })
+</script>
+```
+
+![screenshot](docs/screenshot.png)
+
+## React Component Usage
 
 The `@helixml/chat-widget` is a highly customizable React component designed to provide interactive chat functionality within your application. It features a minimalist design that opens a modal window upon interaction, where users can submit questions and receive answers from a specified openAI compatible endpoint.
 
-## Installation
+### Installation
 
 To use the `@helixml/chat-widget` in your project, install it via npm:
 
@@ -18,7 +51,7 @@ or using yarn:
 yarn add @helixml/chat-widget
 ```
 
-## Usage
+### Usage
 
 Import and use the `Widget` component in your React application:
 
@@ -44,7 +77,7 @@ export default App;
 
 ![screenshot](screenshot.png)
 
-### Props
+#### Props
 
 - `url`: String. The endpoint URL for the remote API from which the answers will be fetched.
 - `model`: String. Identifier for the specific model to be queried at the remote API.
@@ -55,11 +88,11 @@ export default App;
 - `windowTheme`: (Optional) Object. Theme customization for the window component. See the Theme Customization section below for details.
 - `searchTheme`: (Optional) Object. Theme customization for the search input. See the Theme Customization section below for details.
 
-## Theme Customization
+### Theme Customization
 
 Customize the appearance of the chat widget and its components using the `windowTheme` and `searchTheme` props. Each theme object allows you to override default styles to match your application's design.
 
-### Window Theme Options
+#### Window Theme Options
 
 - `logoWidth`: Width of the logo inside the header.
 - `backdropColor`: Color of the modal backdrop.
@@ -86,7 +119,7 @@ Customize the appearance of the chat widget and its components using the `window
 - `closeButtonPadding`: Padding of the close button.
 - `closeButtonFontSize`: Font size of the close button text.
 
-### Search Theme Options
+#### Search Theme Options
 
 - `borderColor`: Border color of the search input.
 - `backgroundColor`: Background color of the search input.

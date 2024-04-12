@@ -1,0 +1,23 @@
+{
+  "name": "@helixml/chat-embed",
+  "version": "0.3.0-a12",
+  "main": "dist/chat-widget.iife.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc --emitDeclarationOnly",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/node": "^20.12.7",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/helixml/chat-widget.git"
+  },
+  "license": "MIT"
+}
