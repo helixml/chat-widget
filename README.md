@@ -4,9 +4,11 @@
 
 The `@helixml/chat-widget` is a UI component that makes it easy to expose large language models behind common APIs (e.g. OpenAI API). It is packaged both as a react component and a browser-side library.
 
+![screenshot](docs/screenshot.png)
+
 ## Browser Usage
 
-The `@helixml/chat-embed` library is a standalone wrapper around our [chat-widget](https://github.com/helixml/chat-widget) library that can easily be embedded onto any page with a `<script>` tag.
+The `@helixml/chat-embed` library is a standalone wrapper around our [React library](#react-component-usage) that can easily be embedded onto any page with a `<script>` tag.
 
 It will bundle using the [IIFE](https://en.wikipedia.org/wiki/Immediately_invoked_function_expression) format which means that we can put this script tag on any page that uses any JS library - it is totally self contained and non combative with other versions of React or other libraries the user might have installed.
 
@@ -14,24 +16,20 @@ It will bundle using the [IIFE](https://en.wikipedia.org/wiki/Immediately_invoke
 
 Load the library from a CDN and then you can call the global `ChatWidget` to render it somewhere in your application.
 
-The arguments you pass to the `ChatWidget` function are the same as the properties passed to the [chat-widget](https://github.com/helixml/chat-widget) library and so you can refer to it's documentation.
+You can find the full list of versions on [jsdelivr](https://www.jsdelivr.com/package/npm/@helixml/chat-embed). You can use https://www.srihash.org/ to calculate the integrity hash.
+
+The arguments you pass to the `ChatWidget` function are the same as the properties passed to the [React library](#props).
 
 ```html
-<script
-  src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed"
-  integrity="sha256-4zSVtrMXR/BJuUbZxuWo3+MrS/el0lOHBi3DCamRq88="
-  crossorigin="anonymous"
-></script>
+<script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed@VERSION" integrity="..." crossorigin="anonymous"></script>
 <script>
   ChatWidget({
-    apiURL: 'https://searchbots.com/api/v1/chat',
-    token: 'XXX',
-    model: 'my-smart-model',
+      url: 'https://api.openai.com/v1/chat/completions',
+      model: 'gpt-3.5-turbo',
+      bearerToken: 'YOUR_API_KEY',
   })
 </script>
 ```
-
-![screenshot](docs/screenshot.png)
 
 ## React Component Usage
 
@@ -74,8 +72,6 @@ function App() {
 
 export default App;
 ```
-
-![screenshot](screenshot.png)
 
 #### Props
 
