@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Helix Chat Widget - SearchBot Example</title>
+</head>
+
+<body>
+    <h1>Helix Chat Widget - SearchBot Example</h1>
+
+    <p>Please append <code>?token=PUBLIC_API_KEY</code> to the URL.</p>
+
+    <!-- In production, you must set the version and SRI integrity tag -->
+    <script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed"></script>
+    <script>
+        ChatWidget({
+            url: 'https://searchbot.tryhelix.ai/v1/chat/completions',
+            model: 'not-required',
+            bearerToken: new URLSearchParams(window.location.search).get('token'),
+        })
+    </script>
+</body>
+
+</html>

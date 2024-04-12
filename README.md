@@ -31,6 +31,10 @@ The arguments you pass to the `ChatWidget` function are the same as the properti
 </script>
 ```
 
+### Examples
+
+You can see some plain html examples in the [embed/examples directory](embed/examples/).
+
 ## React Component Usage
 
 The `@helixml/chat-widget` is a highly customizable React component designed to provide interactive chat functionality within your application. It features a minimalist design that opens a modal window upon interaction, where users can submit questions and receive answers from a specified openAI compatible endpoint.

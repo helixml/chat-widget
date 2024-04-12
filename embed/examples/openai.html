@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Helix Chat Widget - OpenAI Example</title>
+</head>
+
+<body>
+    <h1>Helix Chat Widget - OpenAI Example</h1>
+
+    <p>Please append <code>?token=OPENAI_API_KEY</code> to the URL.</p>
+
+    <!-- In production, you must set the version and SRI integrity tag -->
+    <script src="https://cdn.jsdelivr.net/npm/@helixml/chat-embed"></script>
+    <script>
+        ChatWidget({
+            url: 'https://api.openai.com/v1/chat/completions',
+            model: 'gpt-3.5-turbo',
+            bearerToken: new URLSearchParams(window.location.search).get('token'),
+        })
+    </script>
+</body>
+
+</html>
