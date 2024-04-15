@@ -16,7 +16,7 @@
     <script>
         ChatWidget({
             url: 'https://searchbot.tryhelix.ai/v1/chat/completions',
-            model: 'not-required',
+            model: "29", // Set this to the ID of the SearchBot
             bearerToken: new URLSearchParams(window.location.search).get('token'),
         })
     </script>
