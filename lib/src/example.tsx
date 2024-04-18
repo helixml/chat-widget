@@ -31,7 +31,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       bearerToken ? (
         <div
           style={{
-            backgroundColor: '#070714',
           }}
         >
           <Widget

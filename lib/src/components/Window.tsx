@@ -1,6 +1,7 @@
 import { styled } from 'goober'
 import throttle from 'lodash/throttle'
 import { FC, HTMLAttributes, useEffect, useRef, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import Markdown from 'react-markdown'
 import SearchBar, { SearchTheme } from './Search'
 import useStreamingLLM from './useStreamingLLM'
@@ -254,6 +255,8 @@ const SimpleWindow: FC<{
     reply,
   ])
 
+  useHotkeys('esc', onClose, [])
+
   return (
     <Backdrop
       theme={ useTheme }
@@ -286,17 +289,13 @@ const SimpleWindow: FC<{
           theme={ useTheme }
         >
           <ContentShrink id="content-shrink">
-            <Subtitle
-              theme={ useTheme }
-            >
-              Your Query:
-            </Subtitle>
             <SearchBar
               autoFocus
               loading={ loading }
               theme={ searchBoxTheme }
               placeholder={ placeholder }
               onSubmit={ handleQuery }
+              onEsc={ onClose }
             />
             {
               error && (

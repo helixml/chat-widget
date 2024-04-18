@@ -1,8 +1,10 @@
-import { FC, HTMLAttributes, useEffect, useRef, useState } from 'react'
 import { styled } from 'goober'
+import { FC, HTMLAttributes, useEffect, useRef, useState } from 'react'
+import { useHotkeys } from 'react-hotkeys-hook'
 import {
-  RightArrow,
   HourglassIcon,
+  MagnifyingGlassIcon,
+  RightArrow,
 } from './Icons'
 
 export interface SearchTheme {
@@ -14,6 +16,7 @@ export interface SearchTheme {
   iconColor?: string,
   textPadding?: string,
   textSize?: string,
+  textColor?: string,
   fontFamily?: string,
 }
 
@@ -24,14 +27,15 @@ type ThemeElement = {
 } & HTMLAttributes<HTMLDivElement>
 
 export const DEFAULT_THEME: SearchThemeRequired = {
-  borderColor: 'rgba(255, 255, 255, 0.23)',
-  backgroundColor: 'transparent',
+  borderColor: 'transparent',
+  backgroundColor: 'rgba(235, 237, 240)',
   hoverBorderColor: 'rgba(255, 255, 255, 1)',
-  borderRadius: '5px',
-  iconPadding: '20px',
-  iconColor: 'rgba(255, 255, 255, 1)',
-  textPadding: '20px',
+  borderRadius: '50px',
+  iconPadding: '5px',
+  iconColor: 'rgba(28, 30, 33, 1)',
+  textPadding: '5px ',
   textSize: '14pt',
+  textColor: 'rgba(28, 30, 33, 1)',
   fontFamily: 'Arial',
 }
 
@@ -53,15 +57,17 @@ const InputContainer = styled<ThemeElement & {opacity?: string}>(({ theme, opaci
     outline: none;
     padding: ${theme.textPadding};
     background-color: transparent;
-    color: white;
+    color: ${theme.textColor};
     font-family: ${theme.fontFamily};
     font-size: ${theme.textSize};
   }
 `)
 
 const SearchIcon = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+  padding: ${theme.iconPadding};
   background: none;
   border: none;
+  outline: none;
   cursor: pointer;
   color: ${theme.iconColor};
 `)
@@ -73,13 +79,15 @@ const SearchBar: FC<{
   placeholder?: string,
   onClick?: () => void,
   onSubmit?: (value: string) => void,
+  onEsc?: () => void,
 }> = ({
   theme,
   autoFocus = false,
   loading = false,
-  placeholder = 'Ask a question...',
+  placeholder = 'Search...',
   onClick,
   onSubmit,
+  onEsc = () => {},
 }) => {
   const [ query, setQuery ] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -93,12 +101,25 @@ const SearchBar: FC<{
   }, [
     autoFocus,
   ])
+
+  useHotkeys('esc', onEsc, [])
+
   return (
     <InputContainer
       theme={useTheme}
       opacity={loading ? '0.5' : '1'}
       onClick={onClick}
     >
+      <SearchIcon
+        theme={useTheme}
+        onClick={() => {
+          if (onSubmit) {
+            onSubmit(query)
+          }
+        }}
+      >
+        <MagnifyingGlassIcon />
+      </SearchIcon>
       <input
         ref={inputRef}
         type="text"
@@ -108,6 +129,9 @@ const SearchBar: FC<{
         onKeyDown={(e) => {
           if (e.key === 'Enter' && onSubmit) {
             onSubmit(query)
+          }
+          if (e.key === 'Escape') {
+            onEsc()
           }
         }}
         disabled={loading}
