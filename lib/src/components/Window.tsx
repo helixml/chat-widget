@@ -15,9 +15,6 @@ export interface WindowTheme {
   borderRadius?: string,
   shadow?: string,
   fontFamily?: string,
-  headerTextColor?: string,
-  headerFontSize?: string,
-  headerPadding?: string,
   errorTextColor?: string,
   errorFontSize?: string,
   contentBoxShadow?: string,
@@ -27,6 +24,8 @@ export interface WindowTheme {
   subtitleTextColor?: string,
   subtitleFontSize?: string,
   footerPadding?: string,
+  footerFontSize?: string,
+  footerTextColor?: string,
   closeButtonBorderRadius?: string,
   closeButtonColor?: string,
   closeButtonPadding?: string,
@@ -38,7 +37,7 @@ type WindowThemeRequired = Required<WindowTheme>
 type ThemeElement = {
   theme: WindowThemeRequired,
 } & HTMLAttributes<HTMLDivElement>
- 
+
 export const DEFAULT_THEME: WindowThemeRequired = {
   logoWidth: '32px',
   backdropColor: 'rgba(0, 0, 0, 0.5)',
@@ -48,15 +47,14 @@ export const DEFAULT_THEME: WindowThemeRequired = {
   borderRadius: '8px',
   shadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px;',
   fontFamily: 'Assistant,Helvetica,Arial,sans-serif',
-  headerTextColor: 'white',
-  headerFontSize: '1.25rem',
-  headerPadding: '30px',
   subtitleTextColor: '#aaa',
   subtitleFontSize: '1rem',
   errorTextColor: 'red',
   errorFontSize: '1rem',
   contentBoxShadow: '0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12)',
-  contentPadding: '30px',
+  contentPadding: '20px',
+  footerFontSize: '0.9rem',
+  footerTextColor: '#aaa',
   replyTextColor: 'white',
   replyFontSize: '1.1rem',
   footerPadding: '20px',
@@ -66,7 +64,7 @@ export const DEFAULT_THEME: WindowThemeRequired = {
   closeButtonFontSize: '1.25rem',
 }
 
-const Backdrop = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const Backdrop = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({ theme }) => `
   position: fixed;
   top: 0;
   left: 0;
@@ -80,7 +78,7 @@ const Backdrop = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /
 `);
 
 //max-height: calc(100% - ${theme.verticalMargin});
-const Window = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const Window = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({ theme }) => `
   margin-top: ${theme.verticalMargin};
   width: ${theme.width};
   max-width: 90%;
@@ -93,33 +91,17 @@ const Window = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> 
   flex-direction: column;
 `)
 
-const Header = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
-  padding: 16px;
-  color: ${theme.headerTextColor};
-  font-size: ${theme.headerFontSize};
-  font-family: ${theme.fontFamily};
-  border-top-left-radius: ${theme.borderRadius};
-  border-top-right-radius: ${theme.borderRadius};
-  padding: ${theme.headerPadding};
-  flex-grow: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  img {
-    flex: 0;
-    width: ${theme.logoWidth};
-    margin-right: 16px;
-  }
-`)
-
-const Title = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(() => `
+const Title = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({theme}) => `
   flex: 1;
   margin: 0;
   padding-top: 5px;
+
+  a {
+    color: ${theme.footerTextColor};
+  }
 `)
 
-const Content = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const Content = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({ theme }) => `
   padding: ${theme.contentPadding};
   boxShadow: ${theme.contentBoxShadow};
   flex-grow: 1;
@@ -132,7 +114,7 @@ const ContentShrink = styled('div')`
   flex-grow: 0;
 `;
 
-const Subtitle = styled<ThemeElement & {marginBottom?: string, marginTop?: string}>(({ theme, marginBottom, marginTop, ...props }) => <div {...props} /> )(({ theme, marginBottom = '20px', marginTop = '0px' }) => `
+const Subtitle = styled<ThemeElement & { marginBottom?: string, marginTop?: string }>(({ theme, marginBottom, marginTop, ...props }) => <div {...props} />)(({ theme, marginBottom = '20px', marginTop = '0px' }) => `
   font-family: ${theme.fontFamily};
   font-size: ${theme.subtitleFontSize};
   color: ${theme.subtitleTextColor};
@@ -140,7 +122,7 @@ const Subtitle = styled<ThemeElement & {marginBottom?: string, marginTop?: strin
   margin-top: ${marginTop};
 `)
 
-const Reply = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const Reply = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({ theme }) => `
   font-family: ${theme.fontFamily};
   font-size: ${theme.replyFontSize};
   color: ${theme.replyTextColor};
@@ -159,29 +141,30 @@ const Reply = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )
   }
 `)
 
-const Error = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
+const Error = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({ theme }) => `
   font-family: ${theme.fontFamily};
   font-size: ${theme.errorFontSize};
   color: ${theme.errorTextColor};
   margin-top: 20px;
 `)
 
-const Footer = styled<ThemeElement>(({ theme, ...props }) => <div {...props} /> )(({ theme }) => `
-  flex-grow: 0;
+const Footer = styled<ThemeElement>(({ theme, ...props }) => <div {...props} />)(({ theme }) => `
+  padding: 16px;
+  color: ${theme.footerTextColor};
+  font-size: ${theme.footerFontSize};
+  font-family: ${theme.fontFamily};
+  border-top-left-radius: ${theme.borderRadius};
+  border-top-right-radius: ${theme.borderRadius};
   padding: ${theme.footerPadding};
-  text-align: right;
-`)
+  flex-grow: 0;
+  display: flex;
+  justify-content: space-between;
 
-const CloseButton = styled<{
-  theme: WindowThemeRequired,
-} & HTMLAttributes<HTMLButtonElement>>(({ theme, ...props }) => <button {...props} /> )(({ theme }) => `
-  background: none;
-  border: 1px solid ${theme.closeButtonColor};
-  color: ${theme.closeButtonColor};
-  padding: ${theme.closeButtonPadding};
-  border-radius: ${theme.closeButtonBorderRadius};
-  cursor: pointer;
-  font-size: ${theme.closeButtonFontSize};
+  img {
+    flex: 0;
+    width: ${theme.logoWidth};
+    margin-right: 16px;
+  }
 `)
 
 const SimpleWindow: FC<{
@@ -191,6 +174,7 @@ const SimpleWindow: FC<{
   model: string,
   bearerToken?: string,
   title?: string,
+  href?: string,
   placeholder?: string,
   logo?: string,
   onClose?: () => void,
@@ -200,160 +184,152 @@ const SimpleWindow: FC<{
   url,
   model,
   bearerToken,
-  title = 'Ask Helix',
+  title = 'Powered By Helix',
+  href = "https://tryhelix.ai/",
   placeholder,
   logo = 'https://app.tryhelix.ai/img/logo.png',
-  onClose = () => {},
+  onClose = () => { },
 }) => {
-  const divRef = useRef<HTMLDivElement>(null)
-  const [ error, setError ] = useState('')
-  const [ reply, setReply ] = useState('')
+    const divRef = useRef<HTMLDivElement>(null)
+    const [error, setError] = useState('')
+    const [reply, setReply] = useState('')
 
-  const useTheme = {
-    ...DEFAULT_THEME,
-    ...modalTheme,
-  }
-
-  const {
-    loading,
-    handleQuery,
-  } = useStreamingLLM({
-    url,
-    model,
-    bearerToken,
-    onStart: () => {
-      setReply('')
-      setError('')
-    },
-    onChunk: (chunk) => {
-      setReply(reply => reply + chunk)
-    },
-    onError: (err) => {
-      setError(err)
+    const useTheme = {
+      ...DEFAULT_THEME,
+      ...modalTheme,
     }
-  })
 
-  const handleScroll = throttle(() => {
-    const divElement = divRef.current
-    if(!divElement) return
-    const scrollHeight = divElement.scrollHeight;
-    const isScrolledToBottom = divElement.scrollHeight - divElement.clientHeight === divElement.scrollTop;
-    if (!isScrolledToBottom) {
-      setTimeout(() => {
-        divElement.scrollTo({ top: scrollHeight, behavior: 'smooth' });
-      }, 50)
-    }
-  }, 100, {
-    leading: true,
-    trailing: true,
-  })
+    const {
+      loading,
+      handleQuery,
+    } = useStreamingLLM({
+      url,
+      model,
+      bearerToken,
+      onStart: () => {
+        setReply('')
+        setError('')
+      },
+      onChunk: (chunk) => {
+        setReply(reply => reply + chunk)
+      },
+      onError: (err) => {
+        setError(err)
+      }
+    })
 
-  useEffect(() => {
-    if(!reply) return
-    handleScroll()
-  }, [
-    reply,
-  ])
+    const handleScroll = throttle(() => {
+      const divElement = divRef.current
+      if (!divElement) return
+      const scrollHeight = divElement.scrollHeight;
+      const isScrolledToBottom = divElement.scrollHeight - divElement.clientHeight === divElement.scrollTop;
+      if (!isScrolledToBottom) {
+        setTimeout(() => {
+          divElement.scrollTo({ top: scrollHeight, behavior: 'smooth' });
+        }, 50)
+      }
+    }, 100, {
+      leading: true,
+      trailing: true,
+    })
 
-  useHotkeys('esc', onClose, [])
+    useEffect(() => {
+      if (!reply) return
+      handleScroll()
+    }, [
+      reply,
+    ])
 
-  return (
-    <Backdrop
-      theme={ useTheme }
-      onClick={ onClose }
-    >
-      <Window
-        id="header"
-        theme={ useTheme }
-        onClick={(e) => e.stopPropagation()}
+    useHotkeys('esc', onClose, [])
+
+    return (
+      <Backdrop
+        theme={useTheme}
+        onClick={onClose}
       >
-        <Header
+        <Window
           id="header"
-          theme={ useTheme }
+          theme={useTheme}
+          onClick={(e) => e.stopPropagation()}
         >
-          {
-            logo && (
-              <img
-                src={ logo }
-              />
-            )
-          }
-          <Title
-            theme={ useTheme }
+          <Content
+            id="content"
+            theme={useTheme}
           >
-            {title}
-          </Title>
-        </Header>
-        <Content
-          id="content"
-          theme={ useTheme }
-        >
-          <ContentShrink id="content-shrink">
-            <SearchBar
-              autoFocus
-              loading={ loading }
-              theme={ searchBoxTheme }
-              placeholder={ placeholder }
-              onSubmit={ handleQuery }
-              onEsc={ onClose }
-            />
-            {
-              error && (
-                <Error
-                  theme={ useTheme }
-                >
-                  { error }
-                </Error>
-              )
-            }
+            <ContentShrink id="content-shrink">
+              <SearchBar
+                autoFocus
+                loading={loading}
+                theme={searchBoxTheme}
+                placeholder={placeholder}
+                onSubmit={handleQuery}
+                onEsc={onClose}
+              />
+              {
+                error && (
+                  <Error
+                    theme={useTheme}
+                  >
+                    {error}
+                  </Error>
+                )
+              }
+              {
+                reply && (
+                  <Subtitle
+                    theme={useTheme}
+                    marginTop="20px"
+                    marginBottom="10px"
+                  >
+                    Answer:
+                  </Subtitle>
+                )
+              }
+            </ContentShrink>
             {
               reply && (
-                <Subtitle
-                  theme={ useTheme }
-                  marginTop="20px"
-                  marginBottom="10px"
+                <div
+                  id="content-reply-wrapper"
+                  ref={divRef}
+                  style={{
+                    flexGrow: '1',
+                    overflowY: 'auto',
+                    paddingRight: '20px',
+                  }}
                 >
-                  Answer:
-                </Subtitle>
+                  <Reply
+                    theme={useTheme}
+                  >
+                    <Markdown
+                      children={reply}
+                    />
+                  </Reply>
+                </div>
               )
             }
-          </ContentShrink>
-          {
-            reply && (
-              <div
-                id="content-reply-wrapper"
-                ref={ divRef }
-                style={{
-                  flexGrow: '1',
-                  overflowY: 'auto',
-                  paddingRight: '20px',
-                }}
-              >
-                <Reply
-                  theme={ useTheme }
-                >
-                  <Markdown
-                    children={reply}
-                  />
-                </Reply>
-              </div>
-            )
-          }
-        </Content>
-        <Footer
-          id="footer"
-          theme={ useTheme }
-        >
-          <CloseButton
-            theme={ useTheme }
-            onClick={ onClose }
+          </Content>
+          <Footer
+            id="footer"
+            theme={useTheme}
           >
-            Close
-          </CloseButton>
-        </Footer>
-      </Window>
-    </Backdrop>
-  )
-}
+            <Title
+              theme={useTheme}
+            >
+              <a href={href} target="_blank">
+                {title}
+              </a>
+            </Title>
+            {
+              logo && (
+                <img
+                  src={logo}
+                />
+              )
+            }
+          </Footer>
+        </Window>
+      </Backdrop>
+    )
+  }
 
 export default SimpleWindow

@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Widget from './components/Widget'
 
-// let url = 'https://api.openai.com/v1/chat/completions'
-// let model = 'gpt-3.5-turbo'
-let url = 'https://app.tryhelix.ai/v1/chat/completions'
-let model = 'mistral:7b-instruct'
+let url = 'https://api.openai.com/v1/chat/completions'
+let model = 'gpt-3.5-turbo'
+// let url = 'https://app.tryhelix.ai/v1/chat/completions'
+// let model = 'mistral:7b-instruct'
 let bearerToken = ''
 
 const urlParams = new URLSearchParams(window.location.search)
