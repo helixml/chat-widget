@@ -6,12 +6,13 @@ const render = (config: WidgetProps = {
   url: '',
   model: '',
 }) => {
-  document.write('<div id="helix-widget-root"></div>')
+  const widgetRootId = "helix-widget-root-" + Math.random().toString(36).substring(7);
+  document.write(`<div id="${widgetRootId}"></div>`);
   ReactDOM.render(
     <>
       <Widget {...config} />
     </>,
-    document.getElementById("helix-widget-root")
+    document.getElementById(widgetRootId)
   )
 }
 
