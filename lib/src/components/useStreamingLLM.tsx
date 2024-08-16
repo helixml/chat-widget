@@ -60,12 +60,15 @@ const useStreamingLLM = ({
             return
           }
           const parsedData = JSON.parse(event.data) as any
-          const text = parsedData?.choices[0]?.delta?.content
-          // If there's no text, skip
-          if (!text) {
-            return
+          // Check if choices exists and is an array
+          if (Array.isArray(parsedData?.choices) && parsedData.choices.length > 0) {
+            const text = parsedData.choices[0]?.delta?.content
+            // If there's no text, skip
+            if (!text) {
+              return
+            }
+            onChunk(text)
           }
-          onChunk(text)
         }
       })
       
